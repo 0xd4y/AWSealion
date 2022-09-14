@@ -9,6 +9,9 @@ AWSealion works through not allowing the same API call to be run twice, allowing
 - Detects duplicate commands and reads the output of the API call from memory rather than passing the command to the AWS API
 - Allows enumeration of specific regions via the --regions argument
 
+You can contact me on the following platforms:
+<a href="https://www.linkedin.com/in/segev-eliezer/"><img alt="LinkedIn" src="https://en.m.wikipedia.org/wiki/File:LinkedIn_logo_initials.png"></a>
+
 ## Installation
 ```
 git clone https://github.com/0xd4y/AWSealion
