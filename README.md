@@ -10,6 +10,9 @@ AWSealion works through not allowing the same API call to be run twice, allowing
 - Allows enumeration of specific regions via the --regions argument
 
 You can contact me on the following platforms:
+![LinkedIn](https://user-images.githubusercontent.com/77868212/190282372-f56dfb79-6947-481b-aecd-dcc9ba289b6f.png)
+
+
 <a href="https://www.linkedin.com/in/segev-eliezer/"><img alt="LinkedIn" src="https://en.m.wikipedia.org/wiki/File:LinkedIn_logo_initials.png"></a>
 
 ## Installation
