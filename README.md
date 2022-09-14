@@ -32,6 +32,4 @@ A user agent set for a profile takes precedence over a user agent set for an eng
 ### Per Engagement User Agent Manipulation
 When configuring a user agent for an engagement, the engagement's user agent is applied to all profile in a set engagement unless a profile has an assigned specific user agent.
 
-![image](https://user-images.githubusercontent.com/77868212/190280123-9fecb43d-a3f5-427c-95fb-6c6a4b3a7d65.png)
-
 
