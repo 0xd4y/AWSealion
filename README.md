@@ -30,7 +30,7 @@ source ~/.bashrc
 ![image](https://user-images.githubusercontent.com/77868212/190281101-e00fbf93-d431-4f24-a4ee-ae4bce51e750.png)
 
 
-## How User-Agent Maniupation Works within AWSealion
+## How User-Agent Manipulation Works within AWSealion
 The user agent is determined by the `session.py` file in the `botocore` package. By modifying the `session.py` file to read the user agent from a txt file on the local system, it is possible to change one's AWS API user agent. This allows the user to stay stealthy even when conducting API calls from a pentesting distro, therefore bypassing GuardDuty's `Pentest:` findings. 
 AWSealion is configured to retrieve user agent information from `~/.awsealion/user-agent.txt`. The data in this user-agent file is constantly updated depending on the user agent set for the profile making the call, or the currently set engagement.
 
