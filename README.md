@@ -5,7 +5,7 @@
 #
 :link: You can contact me on the following platforms:<br>
 LinkedIn - https://www.linkedin.com/in/segev-eliezer/<br>
-YouTube - https://www.youtube.com/channel/UCSumP9z5Rzquqih-jpusTOQ
+YouTube - https://www.youtube.com/channel/UCSumP9z5Rzquqih-jpusTOQ<br>
 Web - https://0xd4y.com
 
 
