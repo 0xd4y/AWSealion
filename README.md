@@ -10,7 +10,7 @@ LinkedIn - https://www.linkedin.com/in/segev-eliezer/<br>
 YouTube - https://www.youtube.com/channel/UCSumP9z5Rzquqih-jpusTOQ
 
 ## Key Features
-- User-agent customization on a per-engagement per-profile basis
+- User-agent customization on a per-engagement and per-profile basis
 - Saving output of all API calls 
 - Detects duplicate commands and reads the output of the API call from memory rather than passing the command to the AWS API
 - Allows enumeration of specific regions via the --regions argument
