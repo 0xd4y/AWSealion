@@ -1,10 +1,3 @@
-
-![AWSealion2](https://user-images.githubusercontent.com/77868212/190284733-3f15ab19-e273-4fc4-979b-3a8400527d26.png)
-
-![image](https://user-images.githubusercontent.com/77868212/190285339-9a3c2596-f00c-4db9-b693-9db457b0e242.png)
-
-![test5](https://user-images.githubusercontent.com/77868212/190285162-0d7211ff-43a3-446b-93c0-e43f5cf53553.jpg)
-
 ![AWSealion](https://user-images.githubusercontent.com/77868212/190286997-8163ba19-9e16-4fef-9347-beed0f13c284.png)
 
 # Description
