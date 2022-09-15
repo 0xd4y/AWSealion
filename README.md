@@ -1,5 +1,5 @@
+![AWSealion](https://user-images.githubusercontent.com/77868212/190284530-388c62a3-cc8b-4dc8-90d0-18d05a32d4a5.png)
 
-![AWSealion](https://user-images.githubusercontent.com/77868212/190284451-f1f9ee16-d09f-4a11-9c61-36e55fe39781.png)
 
 
 
