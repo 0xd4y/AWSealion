@@ -1,5 +1,5 @@
 <p align="center">
-![AWSealion_small](https://user-images.githubusercontent.com/77868212/190443927-3cf8a0db-c60f-4344-8f12-b3441fc796d5.png)
+  <img src="https://user-images.githubusercontent.com/77868212/190443927-3cf8a0db-c60f-4344-8f12-b3441fc796d5.png">
 </p>
 
 # Description
