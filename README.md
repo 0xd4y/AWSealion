@@ -21,8 +21,6 @@ AWSealion works through not allowing the same API call to be run twice, allowing
 - Detects duplicate commands and reads the output of the API call from memory rather than passing the command to the AWS API
 - Allows enumeration of specific regions via the --regions argument
 
-
-
 ## Installation
 ```
 git clone https://github.com/0xd4y/AWSealion
@@ -47,7 +45,7 @@ A user agent set for a profile takes precedence over a user agent set for an eng
 When configuring a user agent for an engagement, the engagement's user agent is applied to all profile in a set engagement unless a profile has an assigned specific user agent.
 
 ## Errors
-If the installation script does not work, this is likely due to the script not finding where you're installed `session.py` file is. Therefore, you must find where this file is located, and input the following code right before the `return base` line:
+If the installation script does not work, this is likely due to the script not finding where your installed `session.py` file is. Therefore, you must find where this file is located, and input the following code right before the `return base` line:
 ```python
 try:
     with open(os.getenv("HOME") + "/.awsealion/user_agent.txt","r") as user_agent_file:
