@@ -1,7 +1,7 @@
 <p align="center">
   <img src="https://user-images.githubusercontent.com/77868212/190444390-01be54f7-7b21-4d87-a7fa-5f8b894be341.png">
 </p>
-
+a
 #
 :link: You can contact me on the following platforms:<br>
 LinkedIn - https://www.linkedin.com/in/segev-eliezer/<br>
