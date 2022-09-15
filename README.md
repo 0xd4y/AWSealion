@@ -5,6 +5,7 @@
 
 ![test5](https://user-images.githubusercontent.com/77868212/190285162-0d7211ff-43a3-446b-93c0-e43f5cf53553.jpg)
 
+![AWSealion](https://user-images.githubusercontent.com/77868212/190286997-8163ba19-9e16-4fef-9347-beed0f13c284.png)
 
 # Description
 AWSealion is a CLI tool designed to work as a plugin for the AWS CLI for use by pentesters and security enthusiasts in both professional and CTF settings. This tool helps in staying stealthy during red team and pentesting engagements to ensure that your attacking footprint is as small as possible in an AWS environment. 
