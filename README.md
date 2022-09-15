@@ -1,4 +1,4 @@
-<p align=center>![AWSealion](https://user-images.githubusercontent.com/77868212/190284133-4bd0dc87-134b-4306-8000-2b4d76a6ef62.png)</p>
+![AWSealion](https://user-images.githubusercontent.com/77868212/190284133-4bd0dc87-134b-4306-8000-2b4d76a6ef62.png)
 
 
 # Description
