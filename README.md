@@ -17,10 +17,10 @@ AWSealion works through not allowing the same API call to be run twice, allowing
 
 
 ## Key Features
+- Detects duplicate commands and reads the output of the API call from memory rather than passing the command to the AWS API
 - User-agent customization on a per-engagement and per-profile basis
 - Saving output of all API calls 
-- Detects duplicate commands and reads the output of the API call from memory rather than passing the command to the AWS API
-- Allows enumeration of specific regions via the --regions argument
+- Allows enumeration of multiple regions via the `--regions` and `--all-regions` arguments
 
 ## Installation
 ```
