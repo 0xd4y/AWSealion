@@ -71,6 +71,7 @@ then
 				write_user_agent
 				# Editing botocore file so that the user agent is read from ~/.awsealion/user_agent.txt
 				if [ "$($python -c "import boto3;print(boto3.session.Session()._session.user_agent())")" = 'test' ]; then
+								echo ''
 								echo "[x] Creating an alias for AWSealion in $HOME/.bashrc so that it can be run with 'aws'."
 								echo 'alias aws='$sealion_location >> $HOME"/.bashrc"
 								echo "[x] AWSealion was successfully installed."
