@@ -10,10 +10,9 @@ Web - https://0xd4y.com
 
 
 ## Description
-AWSealion is a CLI tool designed to work as a plugin for the AWS CLI to be used by pentesters and security enthusiasts in both professional and CTF settings. This tool helps in staying stealthy during red team and pentesting engagements to ensure that your attacking footprint is as small as possible in an AWS environment. 
+AWSealion is a CLI tool designed to work as a plugin for the AWS CLI to be used by pentesters and security enthusiasts in both professional and CTF settings, however it can also be used by developers to speed up their work. This tool helps in staying stealthy during red team and pentesting engagements to ensure that your attacking footprint is as small as possible in an AWS environment. 
 
 AWSealion works through not allowing the same API call to be run twice, allowing user-agent customization on a per-engagement and per-profile basis, saving the output of all API calls, and much more. Furthermore, the AWSealion tool creates an organized file structure which the user can easily reference, ensuring that you do not drift away from your commands.
-
 
 
 ## Key Features
@@ -63,3 +62,6 @@ except Exception:
     pass
 ```
 - This code reads from the `user_agent.txt` file and uses it as the user agent for the API call.
+
+## User Agents File
+This user agents file was added to give the user some quick and easy access to some example user agents. This file was taken from the Pacu tool created by RhinoSecurityLabs. All credits to this specific file go to RhinoSecurityLabs.
