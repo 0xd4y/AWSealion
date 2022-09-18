@@ -67,7 +67,7 @@ if 'sealion' in command_arguments:
 
 if len(command_arguments) == 0:
     cprint('[x] Type "aws sealion" to see configuration options.','blue')
-    print('This tool is designed to stop you from making the same API call twice. All command outputs are visible in ' + sealion_path + '. Additionally, this tool helps you stay stealthy during engagements due to allowing easy user agent manipulation on a per-profile and per-engagement basis. Enumeration can be sped up during whitebox engagements via the following tools arguments:\n')
+    print('This tool is designed to keep you stealthy, organized, and efficient during pentesting. All command outputs are visible in ' + sealion_path + '\n')
     cprint('[x] Tool arguments','blue')
     cprint('--regions','green')
     print('\tAllows enumeration of multiple regions. For example "--regions us" enumerates all us regions, "--region eu" enumerates all eu regions, etc. Region enumeration can be customized with "' + 'aws sealion --selected-regions region_name1 region_name2 region_name3" and executed with "--regions selected".\n')
