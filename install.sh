@@ -73,7 +73,7 @@ then
 				if [ "$($python -c "import boto3;print(boto3.session.Session()._session.user_agent())")" = 'test' ]; then
 								echo "[x] Creating an alias for AWSealion in $HOME/.bashrc so that it can be run with 'aws'."
 								echo 'alias aws='$sealion_location >> $HOME"/.bashrc"
-								echo "[x] AWSealion was successfully installed. It can be run with 'aws' after running the following command: 'source $HOME/.bashrc'."
+								echo "[x] AWSealion was successfully installed."
 				else
 								echo "The path to the used botocore session.py file could not be found. Please see the README file."
 				fi
