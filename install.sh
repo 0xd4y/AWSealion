@@ -67,11 +67,11 @@ write_user_agent () {
 
 if [ -f $session_file_location ];
 then
+				echo ''
 				echo "[x] Attempting to write AWSealion code in the botocore session.py file located at "$session_file_location" for user agent manipulation."
 				write_user_agent
 				# Editing botocore file so that the user agent is read from ~/.awsealion/user_agent.txt
-				if [ "$($python -c "import boto3;print(boto3.session.Session()._session.user_agent())")" = 'test' ]; then
-								echo ''
+				if [ "$($python -c "import boto3;print(boto3.session.Session()._session.user_agent())")" = 'test' ]; then					
 								echo "[x] Creating an alias for AWSealion in $HOME/.bashrc so that it can be run with 'aws'."
 								echo 'alias aws='$sealion_location >> $HOME"/.bashrc"
 								echo "[x] AWSealion was successfully installed."
