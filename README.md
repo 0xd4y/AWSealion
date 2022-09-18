@@ -14,6 +14,7 @@ AWSealion is a CLI tool designed to work as a plugin for the AWS CLI to be used 
 
 AWSealion works through not allowing the same API call to be run twice, allowing user-agent customization on a per-engagement and per-profile basis, saving the output of all API calls, and much more. Furthermore, the AWSealion tool creates an organized file structure which the user can easily reference, ensuring that you do not drift away from your commands.
 
+* This tool is meant to be used for legal purposes only. Misuse of this tool is strictly prohibited.
 
 ## Key Features
 - Detects duplicate commands and reads the output of the API call from memory rather than passing the command to the AWS API
