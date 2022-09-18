@@ -1,0 +1,4 @@
+termcolor
+boto3
+botocore
+argparse
