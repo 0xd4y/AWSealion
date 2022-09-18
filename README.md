@@ -25,7 +25,8 @@ AWSealion works through not allowing the same API call to be run twice, allowing
 ## Installation
 ```
 git clone https://github.com/0xd4y/AWSealion
-bash AWSealion/install.sh
+cd AWSealion
+bash install.sh
 source ~/.bashrc
 ```
 
