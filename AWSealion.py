@@ -53,7 +53,6 @@ command = ' '.join(command_arguments)
 ## Puts help text in paginator just like actual aws binary
 if 'help' in command_arguments:
     help_index = command_arguments.index('help')
-    print(help_index)
     if '--' != command_arguments[help_index - 1]:
         command = 'aws ' + command
         os.system(command)
