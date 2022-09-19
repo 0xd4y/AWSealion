@@ -109,7 +109,6 @@ def pentest_user_agent():
             pen_user_agent.close()
         if len(user_agent) == 0:
             if any(bad_user_agent in boto3_user_agent for bad_user_agent in bad_user_agents) and confirmation != 'y': 
-                print('test')
                 cprint('[x] Detected pentesting distro user agent. \nChange this with \'aws sealion --set-user-agent ' + current_engagement + ' "aws-cli/1.16.145 Python/3.6.7 Linux/4.15.0-45-generic botocore/1.12.168"\' or any user agent of your choice.\n', 'red')
 
     except Exception as e:
