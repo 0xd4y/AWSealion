@@ -145,7 +145,8 @@ def select_profile_user_agent(set_user_agent):
     list_engagement()
     engagement = input('[ENGAGEMENT]: ')
     if not os.path.exists(sealion_path + engagement):
-        cprint('[x] ' + engagement + 'does not exist. It can be created with "aws sealion --set-engagement <ENGAGEMENT_NAME>')
+        cprint('[x] ' + engagement + ' does not exist. It can be created with "aws sealion --set-engagement <ENGAGEMENT_NAME>')
+        sys.exit()
     profile = input('[PROFILE]: ')
 
     engagement_path = sealion_path + engagement
