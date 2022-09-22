@@ -120,15 +120,16 @@ def select_regions(regions):
     cprint('[x] The following regions were set: ' + ' '.join(regions) + '','blue')
 
 def select_user_agent(set_user_agent):
-    if len(set_user_agent) != 2:
-        raise argparse.ArgumentTypeError('Must specify a user agent and engagement.\nExample:\naws sealion --set-user-agent engagement_name "aws-cli/1.16.145 Python/3.6.7 Linux/4.15.0-45-generic botocore/1.12.168"')
-        sys.exit()
     if set_user_agent[0] in engagements_list:
         engagement = set_user_agent[0]
         user_agent = set_user_agent[1]
-    else:
+    elif set_user_agent[1] in engagements_list:
         engagement = set_user_agent[1]
         user_agent = set_user_agent[0]
+    else:
+        cprint('[x] The specified engagement was not found. The following are all the engagements.\n','red')
+        list_engagement()
+        sys.exit()
 
     if not os.path.exists(sealion_path + current_engagement):
         confirmation = input('The profile directory ' + engagement_path + profile + ' was not found. Are you sure this is the correct profile and would like to proceed? [y|n]: ')
@@ -139,7 +140,7 @@ def select_user_agent(set_user_agent):
     with open(sealion_path + current_engagement + '/user_agent.txt','w') as agent_file:
         agent_file.write(user_agent)
         agent_file.close()
-        cprint('[x] Set user agent at ' + sealion_path + current_engagement + '/user_agent.txt','blue')
+        cprint('[x] Set user agent "' + user_agent + '" at ' + sealion_path + current_engagement + '/user_agent.txt','blue')
 
 def select_profile_user_agent(set_user_agent):
     list_engagement()
@@ -175,6 +176,7 @@ parser.add_argument('--set-regions', type=str, metavar = '', help='Selects regio
 parser.add_argument('--set-user-agent', type=str, metavar = '', help='Sets the user agent to be used for all API calls across all profiles in a specific engagement.', nargs=2)
 parser.add_argument('--set-profile-user-agent', action='store_true', help='Sets the user agent to be used for all API calls for a specific profile in a specific engagement. This user agent takes precedence over "--set-user-agent" when using the specified profile.', )
 parser.add_argument('sealion',nargs='+', help=argparse.SUPPRESS)
+
 args = parser.parse_args()
 set_engagement = args.set_engagement
 delete_engagement = args.delete_engagement
