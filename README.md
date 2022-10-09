@@ -17,10 +17,10 @@ AWSealion works through not allowing the same API call to be run twice, allowing
 **This tool is meant to be used for legal purposes only. Misuse of this tool is strictly prohibited.**
 
 ## Key Features
-- Detects duplicate commands and reads the output of the API call from memory rather than passing the command to the AWS API
-- User-agent customization on a per-engagement and per-profile basis
-- Saves the output of all API calls 
-- Allows enumeration of multiple regions via the `--regions` and `--all-regions` arguments
+:star: Detects duplicate commands and reads the output of the API call from memory rather than passing the command to the AWS API
+:star: User-agent customization on a per-engagement and per-profile basis
+:star: Saves the output of all API calls 
+:star: Allows enumeration of multiple regions via the `--regions` and `--all-regions` arguments
 
 ## Installation
 ```
@@ -30,12 +30,46 @@ bash install.sh
 source ~/.bashrc
 ```
 
+## Sealion Config 
+```
+┌─[0xd4y@Writeup]─[~/tools/AWSealion]
+└──╼ $aws sealion
+Created by: Segev Eliezer (0xd4y) | https://www.linkedin.com/in/SegevEliezer
+
+usage: AWSealion.py [-h] [--set-engagement] [--delete-engagement] [--list-engagements] [--set-regions  [...]] [--set-user-agent ] [--set-profile-user-agent]
+                    [--set-default-user-agent SET_DEFAULT_USER_AGENT]
+
+Engagements can be found in the following directory: /home/0xd4y/.awsealion/
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --set-engagement      Sets the current engagement. Creates an engagement if it does not yet exist.
+  --delete-engagement   Deletes engagement and command history.
+  --list-engagements    Shows all engagements including the currently selected engagements.
+  --set-regions  [ ...]
+                        Selects regions to enumerate within the environment. These regions can be invoked by using "--regions selected".
+  --set-user-agent      Sets the user agent to be used for all API calls across all profiles in a specific engagement.
+  --set-profile-user-agent
+                        Sets the user agent to be used for all API calls for a specific profile in a specific engagement. This user agent takes precedence over "--set-user-agent" when using the specified profile.
+  --set-default-user-agent SET_DEFAULT_USER_AGENT
+                        Sets the default user agent to be used if an engagement user agent and profile user agent do not exist.
+
+[x] Example Usage:
+aws sealion --set-engagement project_name
+aws sealion --delete-engagement project_name
+aws sealion --list-engagements
+aws sealion --set-regions us-east-1 us-east-2 us-west-1 us-west-2
+aws sealion --set-user-agent my_engagement "aws-cli/1.16.145 Python/3.6.7 Linux/4.15.0-45-generic botocore/1.12.168"
+aws sealion --set-profile-user-agent
+aws sealion --set-default-user-agent "my_user_agent"
+```
+
 ## Example Usage
 ### Setting an Engagement and Profile User Agent
 ![image](https://user-images.githubusercontent.com/77868212/190917207-4f9eb30a-579d-43e6-ba81-0405f90bde0e.png)
 ![image](https://user-images.githubusercontent.com/77868212/190280947-0ac376ee-d8f8-4dd5-926d-365bf2b1af8b.png)
 ![image](https://user-images.githubusercontent.com/77868212/190281101-e00fbf93-d431-4f24-a4ee-ae4bce51e750.png)
-- Profile user agent takes precendence over engagement user agent
+- Profile user agent takes precedence over engagement user agent
 
 ### AWSealion Command Saved
 ![image](https://user-images.githubusercontent.com/77868212/190449067-a6907fb2-7d05-4b33-b42d-ba284fbf9ae3.png)
@@ -50,6 +84,14 @@ A user agent set for a profile takes precedence over a user agent set for an eng
 
 ### Per Engagement User Agent Manipulation
 When configuring a user agent for an engagement, the engagement's user agent is applied to all profile in a set engagement unless a profile has an assigned specific user agent.
+
+### Default User Agent Manipulation
+When using the `--set-default-user-agent` command, it is possible to set a defualt user agent that would be used across all engagements if the engagement user agent or profile user agent are not set.
+
+### User Agent Hierarchy
+1. Most important: Profile user agent
+2. Less important: Engagement user agent
+3. Least important: Default user agent
 
 ## Errors
 If the installation script does not work, this is likely due to the script not finding where your installed `session.py` file is. Therefore, you must find where this file is located, and input the following code right before the `return base` line:
