@@ -17,9 +17,9 @@ AWSealion works through not allowing the same API call to be run twice, allowing
 **This tool is meant to be used for legal purposes only. Misuse of this tool is strictly prohibited.**
 
 ## Key Features
-:star: Detects duplicate commands and reads the output of the API call from memory rather than passing the command to the AWS API
-:star: User-agent customization on a per-engagement and per-profile basis
-:star: Saves the output of all API calls 
+:star: Detects duplicate commands and reads the output of the API call from memory rather than passing the command to the AWS API<br>
+:star: User-agent customization on a per-engagement and per-profile basis<br>
+:star: Saves the output of all API calls <br>
 :star: Allows enumeration of multiple regions via the `--regions` and `--all-regions` arguments
 
 ## Installation
@@ -86,7 +86,7 @@ A user agent set for a profile takes precedence over a user agent set for an eng
 When configuring a user agent for an engagement, the engagement's user agent is applied to all profile in a set engagement unless a profile has an assigned specific user agent.
 
 ### Default User Agent Manipulation
-When using the `--set-default-user-agent` command, it is possible to set a defualt user agent that would be used across all engagements if the engagement user agent or profile user agent are not set.
+When using the `--set-default-user-agent` argument, it is possible to set a defualt user agent that would be used across all engagements if the engagement user agent or profile user agent are not set.
 
 ### User Agent Hierarchy
 1. Most important: Profile user agent
