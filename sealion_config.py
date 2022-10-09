@@ -10,6 +10,9 @@ command_arguments = sys.argv[1::1]
 command = ' '.join(command_arguments)
 
 sealion_path = os.getenv('HOME') + '/.awsealion/'
+f = open(sealion_path + 'user_agent.txt','r')
+default_user_agent = ''.join(f.readlines())
+f.close()
 
 data = open(sealion_path + 'engagements.json') 
 
@@ -32,15 +35,14 @@ try:
 
     
 except Exception as e:
-    print(e)
     pass
 
 
 def engagements(engagement):
     global engagement_path
     engagement = engagement[0]
-    if ',' in engagement:
-        cprint('[x] The "," character is not allowed.','red')
+    if ',' in engagement or '/' in engagement or '"' in engagement:
+        cprint('[x] The "," "/" and " characters are not allowed.','red')
         sys.exit()
     engagement_path = sealion_path + engagement
     if engagement == current_engagement:
@@ -60,8 +62,12 @@ def engagements(engagement):
             engagements_data.update({"engagements_list": engagements_list + engagement})
         
         with open(engagement_path + '/user_agent.txt','w') as user_agent_engagement_file:
+            #if len(default_user_agent) == 0:
             user_agent_engagement_file.write('')
             user_agent_engagement_file.close()
+            #else:
+             #   user_agent_engagement_file.write(default_user_agent)
+              #  user_agent_engagement_file.close()
 
     engagements_data['engagement_set'] = engagement
     with open(sealion_path + 'engagements.json', 'w') as f:
@@ -162,12 +168,16 @@ def select_profile_user_agent(set_user_agent):
     with open(sealion_path + engagement + '/' + profile + '/user_agent.txt','w') as agent_file:
         agent_file.write(set_user_agent)
         agent_file.close()
-    cprint('[x] User agent ' + set_user_agent + ' set for profile ' + profile + '. You currently have ' + current_engagement + ' set. If you would like to change the engagement, use "aws sealion --set-engagement <ENGAGEMENT_NAME>"','green')
+    cprint('[x] User agent ' + set_user_agent + ' set for profile ' + profile + '. You currently have the ' + current_engagement + ' engagement set. If you would like to change the engagement, use "aws sealion --set-engagement <ENGAGEMENT_NAME>"','green')
 
+def set_default_agent(master_user_agent):
+    master_user_agent = master_user_agent[0]
+    with open(sealion_path + 'user_agent.txt','w') as f:
+        f.write(master_user_agent)
+        f.close()
+    cprint('The user agent ' + master_user_agent + ' is now the default user agent.','green')
 
- 
- 
-parser = argparse.ArgumentParser(description = '\nEngagements can be found in the following directory: ' + sealion_path, epilog='[x] Example Usage:\naws sealion --set-engagement project_name\naws sealion --delete-engagement project_name\naws sealion --list-engagements\naws sealion --set-regions us-east-1 us-east-2 us-west-1 us-west-2\naws sealion --set-user-agent my_engagement "aws-cli/1.16.145 Python/3.6.7 Linux/4.15.0-45-generic botocore/1.12.168"\naws sealion --set-profile-user-agent', formatter_class=argparse.RawTextHelpFormatter)
+parser = argparse.ArgumentParser(description = '\nEngagements can be found in the following directory: ' + sealion_path, epilog='[x] Example Usage:\naws sealion --set-engagement project_name\naws sealion --delete-engagement project_name\naws sealion --list-engagements\naws sealion --set-regions us-east-1 us-east-2 us-west-1 us-west-2\naws sealion --set-user-agent my_engagement "aws-cli/1.16.145 Python/3.6.7 Linux/4.15.0-45-generic botocore/1.12.168"\naws sealion --set-profile-user-agent\naws sealion --set-default-user-agent "my_user_agent"', formatter_class=argparse.RawTextHelpFormatter)
  #parser.add_argument('args', nargs=argparse.REMAINDER, help=argparse.SUPPRESS)
 parser.add_argument('--set-engagement', type=str, metavar = '', help='Sets the current engagement. Creates an engagement if it does not yet exist.', nargs=1)
 parser.add_argument('--delete-engagement', type=str, metavar = '', help='Deletes engagement and command history.', nargs=1)
@@ -175,6 +185,7 @@ parser.add_argument('--list-engagements', action='store_true', help='Shows all e
 parser.add_argument('--set-regions', type=str, metavar = '', help='Selects regions to enumerate within the environment. These regions can be invoked by using "--regions selected".', nargs='+')
 parser.add_argument('--set-user-agent', type=str, metavar = '', help='Sets the user agent to be used for all API calls across all profiles in a specific engagement.', nargs=2)
 parser.add_argument('--set-profile-user-agent', action='store_true', help='Sets the user agent to be used for all API calls for a specific profile in a specific engagement. This user agent takes precedence over "--set-user-agent" when using the specified profile.', )
+parser.add_argument('--set-default-user-agent', help='Sets the default user agent to be used if an engagement user agent and profile user agent do not exist.', nargs=1)
 parser.add_argument('sealion',nargs='+', help=argparse.SUPPRESS)
 
 args = parser.parse_args()
@@ -183,6 +194,7 @@ delete_engagement = args.delete_engagement
 list_engagements = args.list_engagements
 set_regions = args.set_regions
 set_user_agent = args.set_user_agent
+master_user_agent = args.set_default_user_agent
 sealion = args.sealion
 
 if '--set-engagement' in command:
@@ -197,6 +209,9 @@ elif '--set-user-agent' in command:
     select_user_agent(set_user_agent)
 elif '--set-profile-user-agent' in command:
     select_profile_user_agent(set_user_agent)
+elif '--set-default-user-agent' in command:
+    set_default_agent(master_user_agent)
+
 
 if len(command_arguments) == 0 or command_arguments[-1] == 'sealion':
     cprint('Created by: Segev Eliezer (0xd4y) | https://www.linkedin.com/in/SegevEliezer\n','blue')

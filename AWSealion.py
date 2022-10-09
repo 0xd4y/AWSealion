@@ -18,9 +18,7 @@ import json
 from termcolor import cprint
 from pathlib import Path
 
-#services = open('services.txt','r')
-#services = services.read().split(',')
-tool_arguments = ['--user-agent', '--all-regions', '--regions']
+tool_arguments = ['--all-regions', '--regions'] # Could potentially be deprecated. Note to self.
 
 command_arguments = sys.argv[1::1]
 
@@ -49,6 +47,10 @@ if '--all-regions' in command_arguments and any(argument in command_arguments fo
     sys.exit()
 
 command = ' '.join(command_arguments)
+if 'configure' in command_arguments[0]:
+    os.system('aws ' + command)
+    sys.exit()
+
 
 ## Puts help text in paginator just like actual aws binary
 if 'help' in command_arguments:
@@ -65,12 +67,14 @@ if 'sealion' in command_arguments:
     import sealion_config
     sys.exit()
 
+default_user_agent = ''.join(open(sealion_path + 'user_agent.txt').readlines())
+
 if len(command_arguments) == 0:
     cprint('[x] Type "aws sealion" to see configuration options.','blue')
-    print('This tool is designed to keep you stealthy, organized, and efficient during pentesting. All command outputs are visible in ' + sealion_path + '\n')
+    print('This tool is designed to keep you stealthy, organized, and efficient during pentesting. All command outputs are saved in ' + sealion_path + '\n')
     cprint('[x] Tool arguments','blue')
     cprint('--regions','green')
-    print('\tAllows enumeration of multiple regions. For example "--regions us" enumerates all us regions, "--region eu" enumerates all eu regions, etc. Region enumeration can be customized with "' + 'aws sealion --selected-regions region_name1 region_name2 region_name3" and executed with "--regions selected".\n')
+    print('\tAllows enumeration of multiple regions. For example "--regions us" enumerates all us regions, "--regions eu" enumerates all eu regions, etc. Region enumeration can be customized with "' + 'aws sealion --selected-regions region_name1 region_name2 region_name3" and executed with "--regions selected".\n')
     cprint('--all-regions','green')
     print('\tAllows enumeration of all aws regions.\n')
     cprint('--force','green')
@@ -100,19 +104,38 @@ try:
 except Exception as e:
     pass
 
-def pentest_user_agent():
+boto3_user_agent = boto3.session.Session()._session.user_agent()
+
+try:
+    if os.path.exists(sealion_path + current_engagement + '/' + profile + '/user_agent.txt'):
+        with open (sealion_path + current_engagement + '/' + profile + '/user_agent.txt','r') as user_agent_file:
+            user_agent = user_agent_file.read().strip()
+            user_agent_file.close()
+    else:
+        with open (sealion_path + current_engagement + '/user_agent.txt','r') as user_agent_file:
+            user_agent = user_agent_file.read().strip()
+            user_agent_file.close()
+
+
+
+except Exception as e:
+    user_agent = boto3_user_agent
+
+def pentest_user_agent(user_agent):
     bad_user_agents=['kali','parrot','pentoo']
     try:
         with open(sealion_path + current_engagement + '/ignore_pentest_user_agent.txt','r') as pen_user_agent:
             confirmation = pen_user_agent.readlines()
             confirmation = confirmation[0].strip()
             pen_user_agent.close()
-        if len(user_agent) == 0:
+        if len(user_agent) == 0 and len(default_user_agent.strip()) == 0:
             if any(bad_user_agent in boto3_user_agent for bad_user_agent in bad_user_agents) and confirmation != 'y': 
                 cprint('[x] Detected pentesting distro user agent. \nChange this with \'aws sealion --set-user-agent ' + current_engagement + ' "aws-cli/1.16.145 Python/3.6.7 Linux/4.15.0-45-generic botocore/1.12.168"\' or any user agent of your choice.\n', 'red')
+                return True
 
     except Exception as e:
-        if len(user_agent) == 0:
+        if len(user_agent) == 0 and len(default_user_agent.strip()) == 0:
+            user_agent = default_user_agent
             confirmation = ''
             if any(bad_user_agent in boto3_user_agent for bad_user_agent in bad_user_agents): 
                 cprint('[x] Detected pentesting distro user agent. \nChange this with \'aws sealion --set-user-agent ' + current_engagement + ' "aws-cli/1.16.145 Python/3.6.7 Linux/4.15.0-45-generic botocore/1.12.168"\' or any user agent of your choice.\n', 'red')
@@ -124,37 +147,19 @@ def pentest_user_agent():
                         else:
                             pen_user_agent.write('w')
                         pen_user_agent.close()
+                    return True
                 else:
                     sys.exit()
 
+pentest_user_agent_bool = pentest_user_agent(user_agent) # Check if pentest distro is being used
 
-
-boto3_user_agent = boto3.session.Session()._session.user_agent()
-try:
-    if os.path.exists(sealion_path + current_engagement + '/' + profile + '/user_agent.txt'):
-        with open (sealion_path + current_engagement + '/' + profile + '/user_agent.txt','r') as user_agent_file:
-            user_agent = user_agent_file.read().strip()
-            user_agent_file.close()
-    else:
-        with open (sealion_path + current_engagement + '/user_agent.txt','r') as user_agent_file:
-            user_agent = user_agent_file.read().strip()
-            user_agent_file.close()
-
-    pentest_user_agent()
-
-    # Master agent file is read by the botocore library. 
-    with open(sealion_path + 'user_agent.txt','w') as master_user_agent_file:
+# Master agent file is read by the botocore library. 
+with open(sealion_path + 'user_agent.txt','w') as master_user_agent_file:
+    if not pentest_user_agent_bool and len(user_agent) > 0:
         master_user_agent_file.write(user_agent)
-        master_user_agent_file.close()
-except Exception as e:
-    pentest_user_agent()
-    user_agent = boto3_user_agent
-
-
-    #os.putenv("SEALION_ENV",user_agent)
-
-#if os.environ.get(
-#os.environ['SEALION_ENV'] = str(myintvariable)
+    else:
+        master_user_agent_file.write(default_user_agent)
+    master_user_agent_file.close()
 
 regions = ["us-east-1","us-east-2","us-west-1","us-west-2","eu-west-1","eu-west-2","eu-west-3","eu-central-1","eu-north-1","eu-south-1","af-south-1","ap-east-1","ap-northeast-1","ap-northeast-2","ap-northeast-3","ap-south-1","ap-southeast-1","ap-southeast-2","ap-southeast-3","ca-central-1","cn-north-1","cn-northwest-1","me-south-1","sa-east-1","us-gov-east-1","us-gov-west-1"]
 us_regions = ["us-east-1","us-east-2","us-west-1","us-west-2","us-gov-east-1","us-gov-west-1"]
@@ -185,12 +190,6 @@ if len(command_arguments) == 1:
     os.popen('aws').read()
     sys.exit()
 
-
-# Deprecated. Probably delete this
-if '--user-agent' in command_arguments:
-    user_agent_index = command_arguments.index('--user-agent')
-    selected_user_agent = command_arguments.pop(user_agent_index+1)
-    del command_arguments[user_agent_index]
 
 command_arguments_temp = command_arguments.copy()
 
@@ -265,17 +264,21 @@ def already_executed(command):
         return False
     try:
         with open(sealion_path + current_engagement + '/' + profile + '/command_history/' + command_arguments[0] + ".json","r") as fj:
-            command_history = json.load(fj)
-            same_command_test = command + ' --region ' + profile_default_region
-            same_command_test = set(same_command_test.split()) ## Takes into account the profile's default region
 
             ## So that when the user reviews the command later, they can see the full command rather than just the arguments
             if command[:3] != 'aws':
                 command = 'aws ' +command
 
+            same_command_test = command + ' --region ' + profile_default_region
+            same_command_test = set(same_command_test.split()) ## Takes into account the profile's default region. Using a set so the order does not matter
+
+
+
             ## Sets were used to make sure two commands are the same regardless of the order of the arguments
+            command_history = json.load(fj)
             for key, value in command_history.items():
-                if command == key or same_command_test == set(key.split()) or command[4:] == key:
+                key_temp = key + ' --region ' + profile_default_region 
+                if command == key or same_command_test == set(key.split()) or command[4:] == key or same_command_test == set(key_temp.split()): # [4:] beause the first four characters are aws[:space:]
                     print('{\n    "AlreadyExecutedCommand": "'+command+'"\n}\n')
                     print(value)
                     return True
@@ -417,7 +420,10 @@ if not any(command_argument in tool_arguments for command_argument in command_ar
         aws_error = aws_error.decode('utf-8')
         command_output = command_output.decode('utf-8')
     else:
-        os.system('aws ' + command)
+        os.system(command)
+        with open(sealion_path + 'user_agent.txt','w') as master_user_agent_file:
+            master_user_agent_file.write(default_user_agent)
+            master_user_agent_file.close()
         sys.exit()
     if 'To see help text, you can run:' in aws_error or 'help' in command_arguments or 'You must specify a region' in aws_error or 'Unknown output type:' in aws_error or 'An error occurred' in aws_error or 'Unable to locate credentials.' in aws_error:
         command_output = aws_error
@@ -427,4 +433,7 @@ if not any(command_argument in tool_arguments for command_argument in command_ar
     elif 'help' not in command and len(aws_error) == 0:
         write_command(command,command_output)
     print(command_output)
-    sys.exit()
+
+with open(sealion_path + 'user_agent.txt','w') as master_user_agent_file:
+    master_user_agent_file.write(default_user_agent)
+    master_user_agent_file.close()
