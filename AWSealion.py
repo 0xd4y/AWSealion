@@ -47,9 +47,10 @@ if '--all-regions' in command_arguments and any(argument in command_arguments fo
     sys.exit()
 
 command = ' '.join(command_arguments)
-if 'configure' in command_arguments[0]:
-    os.system('aws ' + command)
-    sys.exit()
+if len(command_arguments) == 2:
+    if 'configure' == command_arguments[0] or 'configure' == command_arguments[1]:
+        os.system('aws ' + command)
+        sys.exit()
 
 
 ## Puts help text in paginator just like actual aws binary
@@ -421,9 +422,6 @@ if not any(command_argument in tool_arguments for command_argument in command_ar
         command_output = command_output.decode('utf-8')
     else:
         os.system(command)
-        with open(sealion_path + 'user_agent.txt','w') as master_user_agent_file:
-            master_user_agent_file.write(default_user_agent)
-            master_user_agent_file.close()
         sys.exit()
     if 'To see help text, you can run:' in aws_error or 'help' in command_arguments or 'You must specify a region' in aws_error or 'Unknown output type:' in aws_error or 'An error occurred' in aws_error or 'Unable to locate credentials.' in aws_error:
         command_output = aws_error

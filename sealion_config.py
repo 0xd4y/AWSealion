@@ -168,7 +168,7 @@ def select_profile_user_agent(set_user_agent):
     with open(sealion_path + engagement + '/' + profile + '/user_agent.txt','w') as agent_file:
         agent_file.write(set_user_agent)
         agent_file.close()
-    cprint('[x] User agent ' + set_user_agent + ' set for profile ' + profile + '. You currently have the ' + current_engagement + ' engagement set. If you would like to change the engagement, use "aws sealion --set-engagement <ENGAGEMENT_NAME>"','green')
+    cprint('[x] User agent "' + set_user_agent + '" set for profile ' + profile + '. You currently have the "' + current_engagement + '" engagement set. If you would like to change the engagement, use "aws sealion --set-engagement <ENGAGEMENT_NAME>"','green')
 
 def set_default_agent(master_user_agent):
     master_user_agent = master_user_agent[0]
