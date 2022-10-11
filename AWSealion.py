@@ -423,7 +423,7 @@ if not any(command_argument in tool_arguments for command_argument in command_ar
     else:
         os.system(command)
         sys.exit()
-    if 'To see help text, you can run:' in aws_error or 'help' in command_arguments or 'You must specify a region' in aws_error or 'Unknown output type:' in aws_error or 'An error occurred' in aws_error or 'Unable to locate credentials.' in aws_error:
+    if 'To see help text, you can run:' in aws_error or 'help' in command_arguments or 'You must specify a region' in aws_error or 'Unknown output type:' in aws_error or 'Unable to locate credentials.' in aws_error:
         command_output = aws_error
     elif len(aws_error) > 0 and 'aws: error:' not in aws_error and 'help' not in command_arguments:
         command_output = aws_error
