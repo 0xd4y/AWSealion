@@ -332,7 +332,7 @@ def aws_execute(region):
             aws_error = aws_error.decode('utf-8')
 
             ## If the command is invalid
-            if 'To see help text, you can run:' in aws_error or 'help' in command_arguments or 'You must specify a region' in aws_error or 'Unknown output type:' in aws_error or 'InvalidClientTokenId' in aws_error or 'Unable to locate credentials.' in aws_error:
+            if 'To see help text, you can run:' in aws_error or 'help' in command_arguments or 'You must specify a region' in aws_error or 'Unknown output type:' in aws_error or 'Unable to locate credentials.' in aws_error:
                 command_output = aws_error
 
             ## If the command is valid, but there is some error like unauthorized
