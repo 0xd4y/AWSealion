@@ -279,7 +279,10 @@ def already_executed(command):
                 key_temp = key + ' --region ' + profile_default_region
                 if command == key or same_command_test == set(key.split()) or command[4:] == key or same_command_test == set(key_temp.split()): # [4:] beause the first four characters are aws[:space:]
                     print('{\n    "AlreadyExecutedCommand": "'+command+'"\n}\n')
-                    print(value)
+                    try:
+                        print(value)
+                    except BrokenPipeError: # If user appends command with |less but does not scroll through entire output
+                        pass
                     return True
     except FileNotFoundError as e:
         return False
@@ -428,7 +431,11 @@ if not any(command_argument in tool_arguments for command_argument in command_ar
         write_command(command,command_output)
     elif len(aws_error) == 0:
         write_command(command,command_output)
-    print(command_output)
+
+    try:
+        print(command_output)
+    except BrokenPipeError: # If user appends command with |less but does not scroll through entire output
+        pass
 
 with open(sealion_path + 'user_agent.txt','w') as master_user_agent_file:
     master_user_agent_file.write(default_user_agent)
