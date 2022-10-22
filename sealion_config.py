@@ -50,9 +50,14 @@ def engagements(engagement):
     elif os.path.exists(sealion_path + engagement):
         cprint('[x] The following engagement was set: ' + engagement, 'blue')
         if len(engagements_list) > 0 and engagement not in engagements_list.split(','):
-            engagements_data.update({"engagements_list": engagements_list + engagement})
 
+            # Comma bug fix just in case user manually deleted directories
+            if engagements_list[-1] == ',':
+                engagements_data.update({"engagements_list": engagements_list + engagement})
+            elif engagements_list[-1] != ',':
+                engagements_data.update({"engagements_list": engagements_list + ',' + engagement})
         pass
+
     else:
         os.mkdir(engagement_path)
         cprint('[x] New engagement set at ' + engagement_path, 'blue')
@@ -75,8 +80,6 @@ def engagements(engagement):
         f.close()
 
 
-
-
 def delete_engagements(engagement):
     global engagements_list
     engagement = engagement[0]
@@ -84,6 +87,8 @@ def delete_engagements(engagement):
     confirmation = input('Are you sure you want to remove ' + engagement + '? [y|n]: ')
     try:
         if confirmation == 'y':
+            if engagement == 'default':
+                cprint('[x] Deleting special default engagement. Will replace with new default engagement.','blue')
             if engagement == engagements_data['engagement_set']:
                 engagements_data['engagement_set'] = 'default'
             engagements_list_temp = engagements_list.split(',')
@@ -95,7 +100,7 @@ def delete_engagements(engagement):
                 engagements_data['engagements_list'] = engagements_list
                 json.dump(engagements_data, f)
         else:
-            cprint('[x| Deletion canceled.','blue')
+            cprint('[x] Deletion canceled.','blue')
 
         if os.path.exists(sealion_path + engagement):
             shutil.rmtree(sealion_path+engagement)
@@ -104,11 +109,11 @@ def delete_engagements(engagement):
 
 def list_engagement():
     if len(engagements_list) == 0:
-        print('No current engagements.')
+        print('No current engagements.') # Probably deprecated
     elif len(engagements_list) == 1:
             print('*** Current engagement:', engagement + ' ***')
     else:
-        cprint('[x| Engagements: ', 'blue')
+        cprint('[x] Engagements: ', 'blue')
         for engagement in engagements_list.split(','):
             if engagement == engagements_data['engagement_set']:
                 cprint('* ' + engagement, 'green')
