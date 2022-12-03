@@ -2,9 +2,9 @@
 
 ###############################################################################################
 # Created by: Segev Eliezer
-# LinkedIn: https://www.linkedin.com/in/segev-eliezer/
+# LinkedIn: https://www.linkedin.com/in/SegevEliezer
+# YouTube: https://YouTube.com/@0xd4y
 # This tool is made to help you keep stealthy, organized, and efficient during AWS engagements.
-# Date: October 14, 2022
 ###############################################################################################
 
 import signal
@@ -60,6 +60,15 @@ if '--all-regions' in command_arguments and any(argument in command_arguments fo
 command = ' '.join(command_arguments)
 if len(command_arguments) == 2:
     if 'configure' == command_arguments[0] or 'configure' == command_arguments[1]:
+        os.system('aws ' + command)
+        sys.exit()
+
+## To avoid freezing bug
+if 'ssm' in command_arguments and 'start-session' in command_arguments:
+        if '--force' in command_arguments:
+            force_index = command_arguments.index('--force')
+            del command_arguments[force_index]
+            command = ' '.join(command_arguments)
         os.system('aws ' + command)
         sys.exit()
 
