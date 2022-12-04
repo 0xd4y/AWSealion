@@ -2,9 +2,9 @@
 
 ###############################################################################################
 # Created by: Segev Eliezer
-# LinkedIn: https://www.linkedin.com/in/SegevEliezer
-# YouTube: https://YouTube.com/@0xd4y
+# LinkedIn: https://www.linkedin.com/in/segev-eliezer/
 # This tool is made to help you keep stealthy, organized, and efficient during AWS engagements.
+# Date: October 14, 2022
 ###############################################################################################
 
 import signal
@@ -30,7 +30,7 @@ if 'help' in command_arguments:
     help_index = command_arguments.index('help')
     if '--' != command_arguments[help_index - 1][:2]:
         command = 'aws ' + command_temp
-        os.system(command + ' 2>/dev/null')
+        os.system(command)
         sys.exit()
 
 # So that the first two arguments are the service and the argument. This avoids breaking the directory and file structure.
