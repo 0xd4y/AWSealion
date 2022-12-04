@@ -2,9 +2,9 @@
 
 ###############################################################################################
 # Created by: Segev Eliezer
-# LinkedIn: https://www.linkedin.com/in/segev-eliezer/
+# LinkedIn: https://www.linkedin.com/in/SegevEliezer/
+# YouTube: https://YouTube.com/@0xd4y
 # This tool is made to help you keep stealthy, organized, and efficient during AWS engagements.
-# Date: October 14, 2022
 ###############################################################################################
 
 import signal
