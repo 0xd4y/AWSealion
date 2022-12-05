@@ -327,6 +327,7 @@ def write_command(command, command_output):
 
 # Executes AWS commands
 def aws_execute(region):
+    error = False # For outputting to stderr purposes
     global stderr
     if '--force' in command_arguments_temp:
         force_index = command_arguments_temp.index('--force')
@@ -343,16 +344,23 @@ def aws_execute(region):
 
             ## If the command is invalid
             if 'To see help text, you can run:' in aws_error or 'You must specify a region' in aws_error or 'Unknown output type:' in aws_error or 'Unable to locate credentials.' in aws_error:
+                error = True
                 command_output = aws_error
 
             ## If the command is valid, but there is some error like unauthorized
             elif len(aws_error) > 0 and 'To see help text, you can run:' not in aws_error:
+                error = True
                 command_output = aws_error
                 write_command(command,command_output)
             else:
                 command_output = command_output.decode('utf-8')
                 write_command(command,command_output)
-            print(command_output)
+
+            if error == True:
+                print(command_output, file=sys.stderr)
+            else:
+                print(command_output)
+
 
 # If the user accidentally typed in --region when they meant --regions
 if re.search('--region (us|ap|eu|cn|selected)[^\w-]', ' '.join(command_arguments)):
@@ -435,14 +443,20 @@ if not any(command_argument in tool_arguments for command_argument in command_ar
         sys.exit()
     if 'To see help text, you can run:' in aws_error or 'You must specify a region' in aws_error or 'Unknown output type:' in aws_error or 'Unable to locate credentials.' in aws_error:
         command_output = aws_error
+        error = True
     elif len(aws_error) > 0 and 'aws: error:' not in aws_error:
+        error = True
         command_output = aws_error
         write_command(command,command_output)
     elif len(aws_error) == 0:
         write_command(command,command_output)
 
     try:
-        print(command_output)
+        if error == True:
+            print(command_output, file=sys.stderr)
+        else:
+            print(command_output)
+
     except BrokenPipeError: # If user appends command with |less but does not scroll through entire output
         pass
 
