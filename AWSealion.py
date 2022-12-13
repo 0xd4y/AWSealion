@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 ###############################################################################################
-# Created by: vaSegev Eliezer
+# Created by: Segev Eliezer
 # LinkedIn: https://www.linkedin.com/in/Segev-Eliezer/
 # YouTube: https://YouTube.com/@0xd4y
 # This tool is made to help you keep stealthy, organized, and efficient during AWS engagements.
