@@ -34,7 +34,7 @@ source ~/.bashrc
 ```
 ┌─[0xd4y@Writeup]─[~/tools/AWSealion]
 └──╼ $aws sealion
-Created by: Segev Eliezer (0xd4y) | https://www.linkedin.com/in/SegevEliezer
+Created by: Segev Eliezer (0xd4y) | https://www.linkedin.com/in/Segev-Eliezer
 
 usage: AWSealion.py [-h] [--set-engagement] [--delete-engagement] [--list-engagements] [--set-regions  [...]] [--set-user-agent ] [--set-profile-user-agent]
                     [--set-default-user-agent SET_DEFAULT_USER_AGENT]
