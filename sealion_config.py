@@ -219,5 +219,5 @@ elif '--set-default-user-agent' in command:
 
 
 if len(command_arguments) == 0 or command_arguments[-1] == 'sealion':
-    cprint('Created by: Segev Eliezer (0xd4y) | https://www.linkedin.com/in/SegevEliezer\n','blue')
+    cprint('Created by: Segev Eliezer (0xd4y) | https://www.linkedin.com/in/Segev-Eliezer\n','blue')
     parser.print_help()
