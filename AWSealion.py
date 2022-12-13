@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
 ###############################################################################################
-# Created by: Segev Eliezer
-# LinkedIn: https://www.linkedin.com/in/SegevEliezer/
+# Created by: vaSegev Eliezer
+# LinkedIn: https://www.linkedin.com/in/Segev-Eliezer/
 # YouTube: https://YouTube.com/@0xd4y
 # This tool is made to help you keep stealthy, organized, and efficient during AWS engagements.
 ###############################################################################################
@@ -289,7 +289,8 @@ def already_executed(command):
                 if command == key or same_command_test == set(key.split()) or command[4:] == key or same_command_test == set(key_temp.split()): # [4:] beause the first four characters are aws[:space:]
                     print('{\n    "AlreadyExecutedCommand": "'+command+'"\n}\n')
                     try:
-                        print(value)
+                        if "error" in value:
+                            print(value, file=sys.stderr)
                     except BrokenPipeError: # If user appends command with |less but does not scroll through entire output
                         pass
                     return True
