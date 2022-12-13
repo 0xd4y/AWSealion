@@ -289,8 +289,11 @@ def already_executed(command):
                 if command == key or same_command_test == set(key.split()) or command[4:] == key or same_command_test == set(key_temp.split()): # [4:] beause the first four characters are aws[:space:]
                     print('{\n    "AlreadyExecutedCommand": "'+command+'"\n}\n')
                     try:
-                        if "error" in value:
+                        if "An error occurred" in ' '.join(value.split()[:3]):
                             print(value, file=sys.stderr)
+                        else:
+                            print(value)
+
                     except BrokenPipeError: # If user appends command with |less but does not scroll through entire output
                         pass
                     return True
