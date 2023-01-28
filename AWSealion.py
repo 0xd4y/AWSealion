@@ -4,7 +4,7 @@
 # Created by: Segev Eliezer
 # LinkedIn: https://www.linkedin.com/in/Segev-Eliezer/
 # YouTube: https://YouTube.com/@0xd4y
-# This tool is made to help you keep stealthy, organized, and efficient during AWS engagements.
+# This tool is made to help keep stealthy, organized, and efficient during AWS engagements.
 ###############################################################################################
 
 import signal
@@ -352,7 +352,7 @@ def aws_execute(region):
                 command_output = aws_error
 
             ## If the command is valid, but there is some error like unauthorized
-            elif len(aws_error) > 0 and 'To see help text, you can run:' not in aws_error:
+            elif len(aws_error) > 0 and 'To see help text, you can run:' not in aws_error and "deprecated" not in aws_error:
                 error = True
                 command_output = aws_error
                 write_command(command,command_output)
@@ -448,7 +448,7 @@ if not any(command_argument in tool_arguments for command_argument in command_ar
     if 'To see help text, you can run:' in aws_error or 'You must specify a region' in aws_error or 'Unknown output type:' in aws_error or 'Unable to locate credentials.' in aws_error:
         command_output = aws_error
         error = True
-    elif len(aws_error) > 0 and 'aws: error:' not in aws_error:
+    elif len(aws_error) > 0 and 'aws: error:' not in aws_error and "deprecated" not in aws_error:
         error = True
         command_output = aws_error
         write_command(command,command_output)
