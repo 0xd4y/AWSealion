@@ -452,7 +452,7 @@ if not any(command_argument in tool_arguments for command_argument in command_ar
         error = True
         command_output = aws_error
         write_command(command,command_output)
-    elif len(aws_error) == 0:
+    else:
         write_command(command,command_output)
 
     try:
