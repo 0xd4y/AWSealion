@@ -4,7 +4,7 @@
 # Created by: Segev Eliezer
 # LinkedIn: https://www.linkedin.com/in/Segev-Eliezer/
 # YouTube: https://YouTube.com/@0xd4y
-# This tool is made to help keep stealthy, organized, and efficient during AWS engagements.
+# This tool is made to help you keep stealthy, organized, and efficient during AWS engagements.
 ###############################################################################################
 
 import signal
@@ -17,6 +17,8 @@ import os
 import json
 from termcolor import cprint
 from pathlib import Path
+
+profile_error = False # If the profile doesn't exist, then profile_error = True
 
 tool_arguments = ['--all-regions', '--regions'] # Could potentially be deprecated. Note to self.
 
@@ -47,11 +49,19 @@ try:
     command_arguments.append(profile_argument)
     command_arguments.append(profile)
 except Exception as e:
+    #pass
     ## If no profile is specified, use the default profile, but ignore this if the user just wants to configure things
     if len(command_arguments) > 0 and 'sealion' not in command_arguments:
+        try:
+            type(profile)
+        except NameError:
+            profile_error = True
+            profile_default_region = ''
+            if '--profile' in command_arguments:
+                command_arguments.append(profile_argument)
         profile = 'default'
-        command_arguments.append('--profile')
-        command_arguments.append(profile)
+     #   command_arguments.append('--profile')
+      #  command_arguments.append(profile)
 
 if '--all-regions' in command_arguments and any(argument in command_arguments for argument in ['--regions','--region']):
     cprint('Cannot use --all-regions with another region argument.','red')
@@ -187,16 +197,17 @@ if '--regions selected' in ' '.join(command_arguments):
         cprint('[x] The file ' + sealion_path + current_engagement + '/selected_regions.txt does not exist.\nUse "aws sealion --set-regions region_name1 region_name2 region_name3" before running this command.','red')
         sys.exit()
 
-try:
-    profile_session = boto3.session.Session(profile_name=profile)
-    profile_default_region = profile_session.region_name
-    if profile_default_region is None:
-        profile_default_region = '' # So that you can concatenate it to a string
-except:
-    if 'configure' not in command_arguments:
-        print('The config profile ('+profile+') could not be found')
-        sys.exit()
-    pass
+if not profile_error:
+    try:
+        profile_session = boto3.session.Session(profile_name=profile)
+        profile_default_region = profile_session.region_name
+        if profile_default_region is None or profile_error:
+            profile_default_region = '' # So that you can concatenate it to a string
+    except Exception as e:
+        if 'configure' not in command_arguments:
+            print('The config profile ('+profile+') could not be found')
+            sys.exit()
+        pass
 
 if len(command_arguments) == 1:
     os.popen('aws').read()
@@ -305,29 +316,30 @@ def write_command(command, command_output):
     make_directories()
     json_file = sealion_path + current_engagement + '/' + profile + '/command_history/' + command_arguments[0] + ".json" ## File containing program-readable command history
     command_file = sealion_path + current_engagement + '/' + profile + '/' + command_arguments[0] + '/' + command_arguments[1] + ".txt" ## File containing human-readable command history
-    FileNotFound = False
-    try:
-        with open(json_file,"r") as fjr:
-            history = json.load(fjr)
-    except Exception as e:
-       
-        FileNotFound = True
-        pass
+    if command_arguments[1][:2] != "--":
+        FileNotFound = False
+        try:
+            with open(json_file,"r") as fjr:
+                history = json.load(fjr)
+        except Exception as e:
+           
+            FileNotFound = True
+            pass
 
-    with open(json_file,"w") as fjw:
-        if FileNotFound:
-            command_history_write = json.dumps({command: command_output}) # writes dictionairy with the command as the key and its output as the value
-            fjw.write(command_history_write)
-        else:
-            history[f'{command}'] = command_output # appends a key and value to the command history file
-            json.dump(history, fjw)
-    with open(command_file,"a") as fw:
-        if 'aws' != command[:3]:
-            fw.write('{\n    "Command": "aws '+command+ '"\n}\n') #writes command and its output to a readable txt file for later review by the pentester.
-        else:
-            fw.write('{\n    "Command": "'+command+ '"\n}\n') #writes command and its output to a readable txt file for later review by the pentester.
-        fw.write(command_output)
-        fw.close()
+        with open(json_file,"w") as fjw:
+            if FileNotFound:
+                command_history_write = json.dumps({command: command_output}) # writes dictionairy with the command as the key and its output as the value
+                fjw.write(command_history_write)
+            else:
+                history[f'{command}'] = command_output # appends a key and value to the command history file
+                json.dump(history, fjw)
+        with open(command_file,"a") as fw:
+            if 'aws' != command[:3]:
+                fw.write('{\n    "Command": "aws '+command+ '"\n}\n') #writes command and its output to a readable txt file for later review by the pentester.
+            else:
+                fw.write('{\n    "Command": "'+command+ '"\n}\n') #writes command and its output to a readable txt file for later review by the pentester.
+            fw.write(command_output)
+            fw.close()
 
 # Executes AWS commands
 def aws_execute(region):
