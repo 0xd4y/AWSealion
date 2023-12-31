@@ -8,6 +8,7 @@ from termcolor import cprint
 
 command_arguments = sys.argv[1::1]
 command = ' '.join(command_arguments)
+command_error = False # If user inputs sealion command that doesn't exist
 
 sealion_path = os.getenv('HOME') + '/.awsealion/'
 f = open(sealion_path + 'user_agent.txt','r')
@@ -216,8 +217,12 @@ elif '--set-profile-user-agent' in command:
     select_profile_user_agent(set_user_agent)
 elif '--set-default-user-agent' in command:
     set_default_agent(master_user_agent)
+else:
+    command_error = True
+    wrong_command = command.split()[1]
 
 
-if len(command_arguments) == 0 or command_arguments[-1] == 'sealion':
+if len(command_arguments) == 0 or command_arguments[-1] == 'sealion' or command_error:
     cprint('Created by: Segev Eliezer (0xd4y) | https://www.linkedin.com/in/Segev-Eliezer\n','blue')
     parser.print_help()
+    cprint(f'\nERROR: Sealion command ({wrong_command}) does not exist','red')
