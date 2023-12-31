@@ -1,4 +1,18 @@
 #!/bin/bash
+: '
+This bash script puts the following Python code in your AWS session.py file. This code allows you to create a file ~/.awsealion/user_agent.txt which will act as the user agent for all your AWS API calls.
+
+try:
+    with open(os.getenv("HOME") + "/.awsealion/user_agent.txt","r") as user_agent_file:
+        user_agent = user_agent_file.read().strip()
+        user_agent_file.close()
+        if len(user_agent) != 0:
+            base = user_agent
+except Exception:
+    pass
+
+'
+
 pip install -r requirements.txt
 chmod +x AWSealion.py
 mkdir $HOME"/.awsealion" 2>/dev/null
