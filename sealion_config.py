@@ -218,11 +218,15 @@ elif '--set-profile-user-agent' in command:
 elif '--set-default-user-agent' in command:
     set_default_agent(master_user_agent)
 else:
-    command_error = True
-    wrong_command = command.split()[1]
+    if len(command.split()) >= 2:
+        command_error = True
+        wrong_command = command.split()[1]
+
+
 
 
 if len(command_arguments) == 0 or command_arguments[-1] == 'sealion' or command_error:
     cprint('Created by: Segev Eliezer (0xd4y) | https://www.linkedin.com/in/Segev-Eliezer\n','blue')
     parser.print_help()
-    cprint(f'\nERROR: Sealion command ({wrong_command}) does not exist','red')
+    if command_error:
+        cprint(f'\nERROR: Sealion command ({wrong_command}) does not exist','red')
