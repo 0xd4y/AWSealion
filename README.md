@@ -4,7 +4,7 @@
 
 #
 :link: You can contact me on the following platforms:<br>
-LinkedIn - https://www.linkedin.com/in/segev-eliezer/<br>
+LinkedIn - https://www.linkedin.com/in/segeveliezer/<br>
 YouTube - https://www.youtube.com/@0xd4y<br>
 Web - https://0xd4y.com
 
